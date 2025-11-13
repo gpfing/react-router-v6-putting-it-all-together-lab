@@ -1,7 +1,10 @@
+import {Outlet, Link, useOutletContext, useParams} from "react-router-dom"
 
 function DirectorCard() {
-    // Replace me
-    const director = null
+    const {directors, updateDirectors} = useOutletContext();
+    const {id} = useParams()
+
+    const director = directors.find(d => d.id === id)
 
     if (!director) {
         return <h2>Director not found.</h2>
@@ -15,12 +18,12 @@ function DirectorCard() {
         <ul>
             {director.movies.map((movie) => (
             <li key={movie.id}>
-                <a>{movie.title}</a>
+                <Link to={`movies/${movie.id}`}>{movie.title}</Link>
             </li>
             ))}
         </ul>
         <Link to={`movies/new`}>Add New Movie</Link>
-        {/* Movie compoenents should render here depending on route */}
+        <Outlet context={{directors, updateDirectors}}/>
         </div>
     )
 }
